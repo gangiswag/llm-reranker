@@ -62,7 +62,7 @@ Set flag --suffix to "llm_FIRST_alpha" for FIRST LLM evaluation or "ce" for cros
 ```
 
 
-### 3. Train
+### 3. Model Training
 
 We support three training objectives: Ranking, Generation, and Combined. The Ranking objective uses a learning-to-rank algorithm to output the logits for the highest-ranked passage ID. The Generation objective follows the principles of Causal Language Modeling, focusing on permutation generation. The Combined objective, which we introduce in our paper, is a novel weighted approach that seamlessly integrates both ranking and generation principles, and is the setting applied to FIRST model.
 

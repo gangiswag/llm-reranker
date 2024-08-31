@@ -67,7 +67,12 @@ Set flag --suffix to "llm_FIRST_alpha" for FIRST LLM evaluation or "ce" for cros
 Converted training dataset (alphabetic IDs) is on [HF](https://huggingface.co/datasets/rryisthebest/rank_zephyr_training_data_alpha). The standard numeric training dataset can be found [here](https://huggingface.co/datasets/castorini/rank_zephyr_training_data)
 
 ### 3b. Training
-We support three training objectives: Ranking, Generation, and Combined. The Ranking objective uses a learning-to-rank algorithm to output the logits for the highest-ranked passage ID. The Generation objective follows the principles of Causal Language Modeling, focusing on permutation generation. The Combined objective, which we introduce in our paper, is a novel weighted approach that seamlessly integrates both ranking and generation principles, and is the setting applied to FIRST model.
+We support three training objectives:
+
+- **Ranking**: The Ranking objective uses a learning-to-rank algorithm to output the logits for the highest-ranked passage ID.
+- **Generation**: The Generation objective follows the principles of Causal Language Modeling, focusing on permutation generation.
+- **Combined**: The Combined objective, which we introduce in our paper, is a novel weighted approach that seamlessly integrates both ranking and generation principles, and is the setting applied to the FIRST model.
+
 
 Training and accelerate configs are at `{REPO_DIR}/bash/run_train.sh` and `{REPO_DIR}/train_configs/accel_config.yaml`, respectively.
 

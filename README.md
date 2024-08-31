@@ -18,7 +18,7 @@ Before running, do
 export REPO_DIR=<path to this directory e.g. /shared/nas/data/m1/revanth3/exp/prf/ai2_data/workspace/repo/llm-reranker>
 ```
 
-## Retrieval Result
+## Retrieval
 Please download the precomputed BEIR encodings stored at (Link will be added shortly)
 Run the baseline Contriever retrieval using the precomputed encodings
 

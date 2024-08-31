@@ -64,7 +64,7 @@ Set flag --suffix to "llm_FIRST_alpha" for FIRST LLM evaluation or "ce" for cros
 
 ## 3. Model Training
 ### 3a. Training Dataset
-Converted training dataset (alphabetic IDs) is on [HF](https://huggingface.co/datasets/rryisthebest/rank_zephyr_training_data_alpha). The standard numeric training dataset can be found [here](https://huggingface.co/datasets/castorini/rank_zephyr_training_data)
+Converted training dataset (alphabetic IDs) is on [HF](https://huggingface.co/datasets/rryisthebest/rank_zephyr_training_data_alpha). The standard numeric training dataset can be found [here](https://huggingface.co/datasets/castorini/rank_zephyr_training_data).
 
 ### 3b. Training
 We support three training objectives:

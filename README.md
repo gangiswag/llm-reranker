@@ -31,7 +31,8 @@ To get the baseline contriever scores and preprocess datasets, Run:
 bash bash/beir/run_eval.sh rank
 ```
 
-## 2a. Reranking
+## 2. Reranking
+### 2a. Baseline Cross-encoder reranking
 Cross-encoder rerankig config is at `{REPO_DIR}/bash/beir/run_rerank_CE.sh`
 To run the baseline cross encoder re-ranking, run:
 ```

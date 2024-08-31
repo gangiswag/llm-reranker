@@ -1,4 +1,5 @@
 # FIRST: Faster Improved Listwise Reranking with Single Token Decoding
+Relevance Feeback code will be released shortly afterward
 
 
 ## Installation

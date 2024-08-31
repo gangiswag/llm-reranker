@@ -1,0 +1,13 @@
+datasets/*
+data/*
+scripts/__pycache__/*
+scripts/utils/__pycache__/*
+models/*
+scripts/*.ipynb
+wandb/*
+logs/*
+qrels/*
+outputs/*
+scripts/latency_test.py
+scripts/logits_reranking_test.py
+temp/*

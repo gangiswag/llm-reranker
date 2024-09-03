@@ -15,7 +15,7 @@ data_dir="${REPO_DIR}/datasets/beir"
 mkdir -p "$output_dir" "$data_dir"
 
 # Datasets to process
-datasets=('trec-covid') # 'climate-fever' 'dbpedia-entity' 'fever' 'fiqa' 'hotpotqa' 'msmarco'  'nfcorpus' 'nq' 'scidocs' 'scifact' 'trec-covid'
+datasets=('trec-covid') # 'climate-fever' 'dbpedia-entity' 'fever' 'fiqa' 'hotpotqa' 'msmarco'  'nfcorpus' 'nq' 'scidocs' 'scifact'
 
 # Iterate over datasets
 for dataset in "${datasets[@]}"; do

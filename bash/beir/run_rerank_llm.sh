@@ -16,7 +16,6 @@ DATASETS=('dbpedia-entity') # 'climate-fever' 'fever' 'hotpotqa' 'msmarco' 'nfco
 for DATASET in "${DATASETS[@]}"; do
     echo "Reranking dataset: ${DATASET}"
     
-    # Execute the rerank script with error handling
     if python "${REPO_DIR}/scripts/rerank_llm.py" \
         --model "${MODEL_IN_USE}" \
         --dataset "${DATASET}" \

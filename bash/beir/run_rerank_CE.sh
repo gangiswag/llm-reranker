@@ -11,7 +11,6 @@ DATASETS=('trec-covid') # 'climate-fever' 'fever' 'hotpotqa' 'msmarco' 'nfcorpus
 for DATASET in "${DATASETS[@]}"; do  
     echo "Reranking dataset: ${DATASET}"
     
-    # Execute the rerank script with error handling
     if python "${REPO_DIR}/scripts/rerank_CE.py" \
         --dataset "${DATASET}" \
         --output_dir "${OUTPUT_DIR}" \

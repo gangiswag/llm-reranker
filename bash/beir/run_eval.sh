@@ -11,13 +11,12 @@ DATA_DIR="${REPO_DIR}/datasets/beir/"
 OUTPUT_DIR="${REPO_DIR}/outputs/beir/"
 
 # List of datasets to process
-DATASETS=('trec-covid') # 'climate-fever' 'fever' 'hotpotqa' 'msmarco' 'nfcorpus' 'nq' 'fiqa' 'scidocs' 'scifact' 'dbpedia-entity' 'trec-covid'
+DATASETS=('trec-covid') # 'climate-fever' 'fever' 'hotpotqa' 'msmarco' 'nfcorpus' 'nq' 'fiqa' 'scidocs' 'scifact' 'dbpedia-entity'
 
 # Iterate over datasets and process each one
 for DATASET in "${DATASETS[@]}"; do
     echo "Evaluating dataset: ${DATASET}"
     
-    # Execute the evaluation script
     # suffix: ce -> cross encoder reranker | llm_FIRST_alpha -> FIRST Model
     if python "${REPO_DIR}/scripts/eval.py" \
         --dataset "${DATASET}" \

@@ -78,11 +78,36 @@ Training and accelerate configs are at `{REPO_DIR}/bash/run_train.sh` and `{REPO
 
 To train the model, run:
 ```
-bash bash/run_train.sh
+bash bash/beir/run_train.sh
 ```
 
 To train gated model, login to Huggingface and get token access at huggingface.co/settings/tokens.
 ```
 huggingface-cli login
 ```
+## 4. Relevance Feedback
+### 4a. Dataset preparation for relevance feedback
+To prepare dataset(s) for relevance feedback, run:
+```
+bash bash/beir/run_prepare_distill.sh <Path of precomputed BEIR encodings>
+```
+### 4b. Distillation
+Distillation config \ settings is at `{REPO_DIR}/bash/beir/run_eval.sh`
+To perform the distillation step, run:
+```
+bash bash/beir/run_distill.sh
+```
+
+### 4c. 2nd Retrieval
+To perform the retrieval step after distillation, run:
+```
+bash bash/beir/run_2nd_retrieval.sh  <Path of precomputed BEIR encodings>
+```
+
+### 4d. Relevance feedback evaluation
+To get the 2nd Retreival evaluation, run:
+```
+bash bash/beir/run_eval.sh rank_refit
+```
+
 

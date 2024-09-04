@@ -129,9 +129,9 @@ def rank_net(y_pred, y_true, weighted=False, use_rank=False, weight_by_diff=Fals
             ranks.scatter_(1, indices, torch.arange(1, y_true.numel() + 1).to(y_true.device).view_as(indices))
             pairs_ranks = ranks[:, document_pairs_candidates] 
             rank_sum = pairs_ranks.sum(-1)
-            # weight = 1/rank_sum[the_mask]     
-            rank_prod=pairs_ranks[:, :, 0]*pairs_ranks[:, :, 1]
-            weight = rank_sum[the_mask]/rank_prod[the_mask]      
+            weight = 1/rank_sum[the_mask]     #Relevance Feedback
+            # rank_prod=pairs_ranks[:, :, 0]*pairs_ranks[:, :, 1]
+            # weight = rank_sum[the_mask]/rank_prod[the_mask]      
         else:
             if weight_by_diff:
                 abs_diff = torch.abs(true_diffs)

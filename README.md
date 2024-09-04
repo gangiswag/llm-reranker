@@ -26,9 +26,9 @@ export REPO_DIR=<path to the llm-reranker directory
 ```
 
 ## 1. Retrieval
-We use [contriever]() as the underlying retrieval model. The precomputed query and passage embeddings for BEIR are available [here](https://huggingface.co/datasets/rryisthebest/Contreiever_BEIR_Embeddings/tree/main)
+We use [contriever](https://github.com/facebookresearch/contriever) as the underlying retrieval model. The precomputed query and passage embeddings for BEIR are available [here](https://huggingface.co/datasets/rryisthebest/Contreiever_BEIR_Embeddings).
 
-**Note:** If you wish to not run the retrieval yourself, the retrieval results are provided [here](https://drive.google.com/drive/folders/1eMiqwiTVwJy_Zcss7LQF9hQ1aeTFMZUm?usp=sharing) and you can directly jump to 
+**Note:** If you wish to not run the retrieval yourself, the retrieval results are provided [here](https://drive.google.com/drive/folders/1eMiqwiTVwJy_Zcss7LQF9hQ1aeTFMZUm?usp=sharing) and you can directly jump to [Reranking](#2-reranking)
 
 
 To run the contriever retrieval using the precomputed encodings
@@ -42,40 +42,39 @@ To get the retrieval scores, run:
 bash bash/beir/run_eval.sh rank
 ```
 
-
-
 ## 2. Reranking
 ### 2a. Baseline Cross-encoder reranking
-Cross-encoder rerankig config is at `{REPO_DIR}/bash/beir/run_rerank_CE.sh`
+
 To run the baseline cross encoder re-ranking, run:
 ```
 bash bash/beir/run_rerank.sh
 ```
-### 2b. LLM Reranking
-LLM results preparation config is at `{REPO_DIR}/bash/beir/run_convert_results.sh`
-To prepare retrieval results for LLM reranking, run:
+### 2b. FIRST LLM Reranking
+
+To convert the retrieval results to input for LLM reranking, run:
 
 ```
 bash bash/beir/run_convert_results.sh
 ```
 
-LLM rerankig config is at `{REPO_DIR}/bash/beir/run_rerank_llm.sh`
-To run the LLM reranking, run:
+We provide the trained FIRST reranker [here](https://huggingface.co/rryisthebest/First_Model).
+
+To run the FIRST reranking, run:
 
 ```
 bash bash/beir/run_rerank_llm.sh
 ```
 
-Evaluation config is at `{REPO_DIR}/bash/beir/run_eval.sh`
-To verify that ranking performance has improved from reranking, run:
+To evaluate the reranking performance, run:
+
 ```
 bash bash/run_eval.sh rerank
 
-Set flag --suffix to "llm_FIRST_alpha" for FIRST LLM evaluation or "ce" for cross encoder reranker
 ```
-
+**Note:** Set flag --suffix to "llm_FIRST_alpha" for FIRST reranker evaluation or "ce" for cross encoder reranker
 
 ## 3. Model Training
+We also provide the data and scripts to train the LLM reranker by yourself if you wish to do so.
 ### 3a. Training Dataset
 Converted training dataset (alphabetic IDs) is on [HF](https://huggingface.co/datasets/rryisthebest/rank_zephyr_training_data_alpha). The standard numeric training dataset can be found [here](https://huggingface.co/datasets/castorini/rank_zephyr_training_data).
 
@@ -87,14 +86,12 @@ We support three training objectives:
 - **Combined**: The Combined objective, which we introduce in our paper, is a novel weighted approach that seamlessly integrates both ranking and generation principles, and is the setting applied to the FIRST model.
 
 
-Training and accelerate configs are at `{REPO_DIR}/bash/run_train.sh` and `{REPO_DIR}/train_configs/accel_config.yaml`, respectively.
-
 To train the model, run:
 ```
 bash bash/beir/run_train.sh
 ```
 
-To train gated model, login to Huggingface and get token access at huggingface.co/settings/tokens.
+To train a gated model, login to Huggingface and get token access at huggingface.co/settings/tokens.
 ```
 huggingface-cli login
 ```

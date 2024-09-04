@@ -1,35 +1,48 @@
 # FIRST: Faster Improved Listwise Reranking with Single Token Decoding
-Relevance Feeback code will be released shortly after!
+
+This repository contains the code for the paper [FIRST: Faster Improved Listwise Reranking with Single Token Decoding](https://arxiv.org/pdf/2406.15657)
+
+FIRST is a novel listwise LLM reranking approach leveraging the output logits of the first generated identifier to obtain a ranked ordering of the input candidates directly. FIRST incorporates a learning-to-rank loss during training, prioritizing ranking accuracy for the more relevant passages.
+
+<img src="FIRST.png"  width="25%" height="25%">
 
 
 ## Installation
 You need to install the tevatron library (original source [here](https://github.com/texttron/tevatron)) which provides the framework for retrieval.
 
 ```
-conda create --name {your env name} python=3.9.18
+git clone https://github.com/gangiswag/llm-reranker.git
+cd llm-reranker
+conda create --name reranker python=3.9.18
 cd tevatron
 pip install --editable .
 pip install beir
 ```
-## You need to install the vLLM library (Instruction [here](https://docs.vllm.ai/en/latest/getting_started/installation.html)) which provides optimization for LLM generation.
+**Note:** You need to install the vLLM library (instructions [here](https://docs.vllm.ai/en/latest/getting_started/installation.html)) which provides optimization for LLM inference.
 
-Before running, do
+Before running the scripts below, do
 ```
-export REPO_DIR=<path to this directory e.g. /shared/nas/data/m1/revanth3/exp/prf/ai2_data/workspace/repo/llm-reranker>
+export REPO_DIR=<path to the llm-reranker directory 
 ```
 
 ## 1. Retrieval
-Please download the precomputed BEIR encodings stored at (Link will be added shortly)
-Run the baseline Contriever retrieval using the precomputed encodings
+We use [contriever]() as the underlying retrieval model. The precomputed query and passage embeddings for BEIR are available [here](https://huggingface.co/datasets/rryisthebest/Contreiever_BEIR_Embeddings/tree/main)
+
+**Note:** If you wish to not run the retrieval yourself, the retrieval results are provided [here](https://drive.google.com/drive/folders/1eMiqwiTVwJy_Zcss7LQF9hQ1aeTFMZUm?usp=sharing) and you can directly jump to 
+
+
+To run the contriever retrieval using the precomputed encodings
 
 ```
-bash bash/beir/run_1st_retrieval.sh <Path of precomputed BEIR encodings>
+bash bash/beir/run_1st_retrieval.sh <Path of folder with BEIR encodings>
 ```
-To get the baseline contriever scores and preprocess datasets, Run:
+To get the retrieval scores, run:
 
 ```
 bash bash/beir/run_eval.sh rank
 ```
+
+
 
 ## 2. Reranking
 ### 2a. Baseline Cross-encoder reranking

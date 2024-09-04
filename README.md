@@ -34,7 +34,7 @@ We use [contriever](https://github.com/facebookresearch/contriever) as the under
 To run the contriever retrieval using the precomputed encodings
 
 ```
-bash bash/beir/run_1st_retrieval.sh <Path of folder with BEIR encodings>
+bash bash/beir/run_1st_retrieval.sh <Path to folder with BEIR encodings>
 ```
 To get the retrieval scores, run:
 
@@ -96,28 +96,56 @@ To train a gated model, login to Huggingface and get token access at huggingface
 huggingface-cli login
 ```
 ## 4. Relevance Feedback
+We also provide scripts here to use the LLM reranker for a downstream task, such as relevance feedback. [Inference-time relevance feedback](https://arxiv.org/pdf/2305.11744) uses the reranker's output to distill the retriever's query embedding to improve recall. 
 ### 4a. Dataset preparation for relevance feedback
 To prepare dataset(s) for relevance feedback, run:
 ```
-bash bash/beir/run_prepare_distill.sh <Path of precomputed BEIR encodings>
+bash bash/beir/run_prepare_distill.sh <Path to folder with BEIR encodings>
 ```
-### 4b. Distillation
-Distillation config \ settings is at `{REPO_DIR}/bash/beir/run_eval.sh`
-To perform the distillation step, run:
+### 4b. Distillation (Relevance Feedback Step)
+You can choose to run distillation with either the cross encoder or the LLM reranker or both sequentially.
+To perform the relevance feedback distillation step, run:
 ```
 bash bash/beir/run_distill.sh
 ```
+This step creates new query embeddings after distillation.
 
 ### 4c. 2nd Retrieval
-To perform the retrieval step after distillation, run:
+To perform the retrieval step with the new query embedding after distillation, run:
 ```
-bash bash/beir/run_2nd_retrieval.sh  <Path of precomputed BEIR encodings>
+bash bash/beir/run_2nd_retrieval.sh  <Path to folder with BEIR encodings>
 ```
 
 ### 4d. Relevance feedback evaluation
-To get the 2nd Retreival evaluation, run:
+To evaluate the 2nd retrieval step, run:
 ```
 bash bash/beir/run_eval.sh rank_refit
 ```
+
+## Citation
+
+If you found this repo useful for your work, please consider citing our papers:
+
+```
+@article{reddy2024first,
+  title={FIRST: Faster Improved Listwise Reranking with Single Token Decoding},
+  author={Reddy, Revanth Gangi and Doo, JaeHyeok and Xu, Yifei and Sultan, Md Arafat and Swain, Deevya and Sil, Avirup and Ji, Heng},
+  journal={arXiv preprint arXiv:2406.15657},
+  year={2024}
+}
+```
+
+```
+@article{reddy2023inference,
+  title={Inference-time Re-ranker Relevance Feedback for Neural Information Retrieval},
+  author={Reddy, Revanth Gangi and Dasigi, Pradeep and Sultan, Md Arafat and Cohan, Arman and Sil, Avirup and Ji, Heng and Hajishirzi, Hannaneh},
+  journal={arXiv preprint arXiv:2305.11744},
+  year={2023}
+}
+```
+
+We also acknowledge the following opens-source repos, which were instrumental for this work:
+- [Tevatron]() for retrieval framework
+- [RankLLM]() for LLM reranking inference backbone.
 
 

@@ -1,6 +1,6 @@
 # FIRST: Faster Improved Listwise Reranking with Single Token Decoding
 
-This repository contains the code for the paper [FIRST: Faster Improved Listwise Reranking with Single Token Decoding](https://arxiv.org/pdf/2406.15657)
+This repository contains the code for the paper [FIRST: Faster Improved Listwise Reranking with Single Token Decoding](https://arxiv.org/pdf/2406.15657) and the reranker code for the paper [CoRNStack: High-Quality Contrastive Data for Better Code Ranking](https://arxiv.org/abs/2412.01007).
 
 FIRST is a novel listwise LLM reranking approach leveraging the output logits of the first generated identifier to obtain a ranked ordering of the input candidates directly. FIRST incorporates a learning-to-rank loss during training, prioritizing ranking accuracy for the more relevant passages.
 
@@ -22,59 +22,93 @@ pip install beir
 
 Before running the scripts below, do
 ```
-export REPO_DIR=<path to the llm-reranker directory 
+export REPO_DIR=<path to the llm-reranker directory
 ```
 
 ## 1. Retrieval
+### 1a. Text Retrieval
 We use [contriever](https://github.com/facebookresearch/contriever) as the underlying retrieval model. The precomputed query and passage embeddings for BEIR are available [here](https://huggingface.co/datasets/rryisthebest/Contreiever_BEIR_Embeddings).
 
 **Note:** If you wish to not run the retrieval yourself, the retrieval results are provided [here](https://drive.google.com/drive/folders/1eMiqwiTVwJy_Zcss7LQF9hQ1aeTFMZUm?usp=sharing) and you can directly jump to [Reranking](#2-reranking)
 
-
 To run the contriever retrieval using the precomputed encodings
 
 ```
-bash bash/beir/run_1st_retrieval.sh <Path to folder with BEIR encodings>
+bash bash/run_1st_retrieval.sh <Path to folder with BEIR encodings>
 ```
 To get the retrieval scores, run:
 
 ```
-bash bash/beir/run_eval.sh rank
+bash bash/run_eval.sh rank
+```
+
+### 1b. Code Retrieval
+**Note:** If you wish to not run the code retrieval yourself, the code retrieval results are provided [here](https://drive.google.com/drive/folders/1GYI4g7mTVOhsttwDSioOISBZe_KiFEFt?usp=sharing) and you can directly jump to [Reranking](#2-reranking)
+
+To get the code retrieval scores, run:
+
+```
+bash bash/run_eval.sh rank code
 ```
 
 ## 2. Reranking
-### 2a. Baseline Cross-encoder reranking
+### 2a. Baseline Text Cross-encoder reranking
 
-To run the baseline cross encoder re-ranking, run:
+To run the baseline text cross encoder re-ranking, run:
 ```
-bash bash/beir/run_rerank.sh
+bash bash/run_rerank.sh
 ```
-### 2b. FIRST LLM Reranking
+### 2b. FIRST LLM Reranking - Text
 
-To convert the retrieval results to input for LLM reranking, run:
+To convert the retrieval results to input for Text LLM reranking, run:
 
 ```
-bash bash/beir/run_convert_results.sh
+bash bash/run_convert_results.sh text
 ```
 
 We provide the trained FIRST reranker [here](https://huggingface.co/rryisthebest/First_Model).
 
-To run the FIRST reranking, run:
+To run the FIRST reranking, set RERANK_TYPE="text" in bash/run_rerank_llm.sh and run:
 
 ```
-bash bash/beir/run_rerank_llm.sh
+bash bash/run_rerank_llm.sh
 ```
 
 To evaluate the reranking performance, run:
 
 ```
-bash bash/run_eval.sh rerank
+bash bash/run_eval.sh rerank text
 
 ```
 **Note:** Set flag --suffix to "llm_FIRST_alpha" for FIRST reranker evaluation or "ce" for cross encoder reranker
 
+### 2c. CodeRanker - Code Reranking
+**Note:** CodeRanker currently does not support logit and alpha inference.
+
+To convert the code retrieval results to input for Code LLM reranking, run:
+
+```
+bash bash/run_convert_results.sh code
+```
+
+We provide the trained FIRST reranker [here](https://huggingface.co/rryisthebest/First_Model).
+
+To run the CodeRanker reranking, set RERANK_TYPE="code" and CODE_PROMPT_TYPE="docstring" (Codesearchnet) or "github_issue" (Swebench) in bash/run_rerank_llm.sh and run:
+
+```
+bash bash/run_rerank_llm.sh
+```
+
+To evaluate the reranking performance, run:
+
+```
+bash bash/run_eval.sh rerank code
+```
+
 ## 3. Model Training
-We also provide the data and scripts to train the LLM reranker by yourself if you wish to do so.
+**Note:** Below is the training code for FIRST. We are still working on releasing the training code for the CodeRanker.
+
+We provide the data and scripts to train the LLM reranker by yourself if you wish to do so.
 ### 3a. Training Dataset
 Converted training dataset (alphabetic IDs) is on [HF](https://huggingface.co/datasets/rryisthebest/rank_zephyr_training_data_alpha). The standard numeric training dataset can be found [here](https://huggingface.co/datasets/castorini/rank_zephyr_training_data).
 
@@ -88,38 +122,38 @@ We support three training objectives:
 
 To train the model, run:
 ```
-bash bash/beir/run_train.sh
+bash bash/run_train.sh
 ```
 
 To train a gated model, login to Huggingface and get token access at huggingface.co/settings/tokens.
 ```
 huggingface-cli login
 ```
-## 4. Relevance Feedback
+## 4. Relevance Feedback (not relevant for codeReranker)
 We also provide scripts here to use the LLM reranker for a downstream task, such as relevance feedback. [Inference-time relevance feedback](https://arxiv.org/pdf/2305.11744) uses the reranker's output to distill the retriever's query embedding to improve recall. 
 ### 4a. Dataset preparation for relevance feedback
 To prepare dataset(s) for relevance feedback, run:
 ```
-bash bash/beir/run_prepare_distill.sh <Path to folder with BEIR encodings>
+bash bash/run_prepare_distill.sh <Path to folder with BEIR encodings>
 ```
-### 4b. Distillation (Relevance Feedback Step)
+### 4b. Distillation (Relevance Feedback Step) not relevant for codeReranker
 You can choose to run distillation with either the cross encoder or the LLM reranker or both sequentially.
 To perform the relevance feedback distillation step, run:
 ```
-bash bash/beir/run_distill.sh
+bash bash/run_distill.sh
 ```
 This step creates new query embeddings after distillation.
 
-### 4c. 2nd Retrieval
+### 4c. 2nd Retrieval (not relevant for codeReranker)
 To perform the retrieval step with the new query embedding after distillation, run:
 ```
-bash bash/beir/run_2nd_retrieval.sh  <Path to folder with BEIR encodings>
+bash bash/run_2nd_retrieval.sh  <Path to folder with BEIR encodings>
 ```
 
-### 4d. Relevance feedback evaluation
+### 4d. Relevance feedback evaluation (not relevant for codeReranker)
 To evaluate the 2nd retrieval step, run:
 ```
-bash bash/beir/run_eval.sh rank_refit
+bash bash/run_eval.sh rank_refit
 ```
 
 ## Citation

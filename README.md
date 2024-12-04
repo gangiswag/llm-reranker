@@ -91,7 +91,7 @@ To convert the code retrieval results to input for Code LLM reranking, run:
 bash bash/run_convert_results.sh code
 ```
 
-We provide the trained FIRST reranker [here](https://huggingface.co/rryisthebest/First_Model).
+We provide the trained Codereranker [here](https://huggingface.co/cornstack/CodeRankLLM).
 
 To run the CodeRanker reranking, set RERANK_TYPE="code" and CODE_PROMPT_TYPE="docstring" (Codesearchnet) or "github_issue" (Swebench) in bash/run_rerank_llm.sh and run:
 

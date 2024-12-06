@@ -5,8 +5,8 @@ DATA_DIR="${REPO_DIR}/datasets/"
 OUTPUT_DIR="${REPO_DIR}/outputs/"
 
 # Model configuration
-RERANK_TYPE="code"  # Options: "text" or "code"
-CODE_PROMPT_TYPE="docstring"  # Options: "docstring" or "github_issue" (only used when RERANK_TYPE=code)
+RERANK_TYPE=${1:-"text"} # Default to text
+CODE_PROMPT_TYPE=${2:-"docstring"} # Options: "docstring" or "github_issue" (only used when RERANK_TYPE=code)
 
 if [ "$RERANK_TYPE" = "code" ]; then
     MODEL_IN_USE="cornstack/CodeRankLLM"
@@ -41,8 +41,8 @@ for DATASET in "${DATASETS[@]}"; do
         --use_logits "${USE_LOGITS}" \
         --use_alpha "${USE_ALPHA}" \
         --llm_top_k 100 \
-        --window_size 10 \
-        --step_size 5 \
+        --window_size 20 \
+        --step_size 10 \
         --do_batched 1 \
         --rerank_type "${RERANK_TYPE}" \
         --code_prompt_type "${CODE_PROMPT_TYPE}"; then

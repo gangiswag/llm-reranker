@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Check if input directory is provided
 if [ -z "$1" ]; then
     echo "Usage: $0 <input_directory>"
     exit 1

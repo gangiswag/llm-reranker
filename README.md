@@ -147,5 +147,3 @@ If you found this repo useful for your work, please consider citing our papers:
 We also acknowledge the following opens-source repos, which were instrumental for this work:
 - [Tevatron](https://github.com/texttron/tevatron) for retrieval framework
 - [RankLLM](https://github.com/castorini/rank_llm/) for LLM reranking inference backbone.
-
-

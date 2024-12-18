@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Ensure the input directory is provided
 if [ -z "$1" ]; then
     echo "Usage: $0 <input_directory>"
     exit 1
@@ -8,7 +7,6 @@ fi
 
 input_dir="$1"
 
-# Create necessary directories
 output_dir="${REPO_DIR}/outputs/beir"
 data_dir="${REPO_DIR}/datasets/beir"
 

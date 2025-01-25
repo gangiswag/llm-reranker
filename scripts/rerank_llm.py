@@ -9,7 +9,7 @@ def rerank_beir_outputs(model, output_path, data_dir, dataset, data_type, use_lo
     try:
         # Load dataset based on type
         if rerank_type == "code":
-            data_path = os.path.join(data_dir, "code_datasets", dataset)
+            data_path = os.path.join(data_dir, dataset)
         else:  # text reranking
             data_path = os.path.join(data_dir, "beir", dataset)
             
@@ -24,7 +24,7 @@ def rerank_beir_outputs(model, output_path, data_dir, dataset, data_type, use_lo
         # Load converted retriever results
         try:
             if rerank_type == "code":
-                results_output_path = os.path.join(output_path, "code_datasets", dataset, 'rank_100.json')
+                results_output_path = os.path.join(output_path, dataset, 'rank_100.json')
             else:
                 results_output_path = os.path.join(output_path, "beir", dataset, 'rank_100.json')
                 

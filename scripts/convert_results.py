@@ -20,12 +20,12 @@ def convert_results(output_path, data_dir, dataset, data_type, top_k, rerank_typ
             if dataset in ('swebench_function', 'swebench_file'):
                 return convert_results_swebench(output_path, data_dir, dataset, data_type, top_k)
             
-            data_path = os.path.join(data_dir, "code_datasets", dataset)
+            data_path = os.path.join(data_dir, dataset)
             corpus, queries, qrels = GenericDataLoader(data_folder=data_path).load(split="test")
             
             # Load rank data
-            rank_path = os.path.join(output_path, "code_datasets", dataset, "rank.tsv")
-            dataset_output_path = os.path.join(output_path, "code_datasets", dataset)
+            rank_path = os.path.join(output_path, dataset, "rank.tsv")
+            dataset_output_path = os.path.join(output_path, dataset)
             
         else:  # text reranking
             out_dir = os.path.join(data_dir, "beir")

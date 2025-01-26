@@ -41,7 +41,7 @@ class RankListwiseOSLLM(RankLLM):
                 f"Unsupported prompt mode: {prompt_mode}. Only RANK_GPT is supported."
             )
 
-        self._llm = LLM(model=model, max_logprobs=30, enforce_eager=True, gpu_memory_utilization=0.95, max_model_len=32768, trust_remote_code=True, enable_chunked_prefill=False, tensor_parallel_size=4)
+        self._llm = LLM(model=model, max_logprobs=30, enforce_eager=True, gpu_memory_utilization=0.95, max_model_len=32768, trust_remote_code=True, enable_chunked_prefill=False, tensor_parallel_size=1)
         self._tokenizer = self._llm.get_tokenizer()
         self.system_message_supported = "system" in self._tokenizer.chat_template
         self._batched = batched
